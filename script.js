@@ -1,4 +1,4 @@
-// Smooth scroll helper
+// Smooth scroll
 function scrollToSection(selector) {
   const el = document.querySelector(selector);
   if (el) el.scrollIntoView({ behavior: "smooth" });
@@ -15,16 +15,11 @@ if (localStorage.getItem("theme") === "dark") {
 
 toggle.addEventListener("click", () => {
   body.classList.toggle("dark");
-  if (body.classList.contains("dark")) {
-    toggle.textContent = "☀️";
-    localStorage.setItem("theme", "dark");
-  } else {
-    toggle.textContent = "🌙";
-    localStorage.setItem("theme", "light");
-  }
+  toggle.textContent = body.classList.contains("dark") ? "☀️" : "🌙";
+  localStorage.setItem("theme", body.classList.contains("dark") ? "dark" : "light");
 });
 
-// Mobile nav toggle
+// Mobile nav
 const hamburger = document.getElementById("hamburgerBtn");
 const navLinks = document.getElementById("navLinks");
 
@@ -32,51 +27,44 @@ hamburger.addEventListener("click", () => {
   navLinks.classList.toggle("show");
 });
 
-// Bottom nav buttons
-document.querySelectorAll(".glass-bottom-nav .bottom-item").forEach(btn => {
+// Bottom nav
+document.querySelectorAll(".bottom-item").forEach(btn => {
   btn.addEventListener("click", () => {
-    const target = btn.getAttribute("data-target");
-    scrollToSection(target);
+    scrollToSection(btn.dataset.target);
   });
 });
 
-// 3D tilt effect
+// 3D tilt
 document.querySelectorAll(".tilt").forEach(card => {
   card.addEventListener("mousemove", (e) => {
     const rect = card.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateX = ((y - centerY) / centerY) * -8;
-    const rotateY = ((x - centerX) / centerX) * 8;
-
-    card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
+    const rotateX = ((y - rect.height / 2) / rect.height) * -10;
+    const rotateY = ((x - rect.width / 2) / rect.width) * 10;
+    card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
   });
 
   card.addEventListener("mouseleave", () => {
-    card.style.transform = "rotateX(0deg) rotateY(0deg) translateZ(0)";
+    card.style.transform = "rotateX(0deg) rotateY(0deg)";
   });
 });
 
-// Parallax panels + scroll reactive
+// Parallax + scroll reactive
 const panels = document.querySelectorAll(".parallax-panel");
 const reactive = document.querySelectorAll(".scroll-reactive");
 
 function handleScroll() {
-  const scrollY = window.scrollY;
   const height = window.innerHeight;
 
   panels.forEach(panel => {
     const rect = panel.getBoundingClientRect();
-    const offset = rect.top / height;
-    panel.style.transform = `translateY(${offset * -20}px)`;
+    panel.style.transform = `translateY(${rect.top * -0.05}px)`;
   });
 
   reactive.forEach(el => {
     const rect = el.getBoundingClientRect();
-    const visible = rect.top < height * 0.85;
-    if (visible) {
+    if (rect.top < height * 0.85) {
       el.style.opacity = 1;
       el.style.transform = "translateY(0)";
     }
