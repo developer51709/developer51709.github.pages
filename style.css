@@ -14,28 +14,48 @@ html {
 }
 
 body {
-  transition: background 0.4s ease, color 0.4s ease;
+  transition: background 0.6s ease, color 0.4s ease;
+  background-size: 400% 400%;
+  animation: softGradientShift 18s ease infinite;
 }
 
 /* Light Mode */
 :root {
-  --bg: radial-gradient(circle at top, #f9fbff, #e5e8f0);
+  --bg-angle: 120deg;
+
+  --bg: linear-gradient(
+      var(--bg-angle),
+      #f9fbff,
+      #eef2ff,
+      #e8f0ff,
+      #f4f7ff
+    );
+
   --text: #0d0d0d;
   --accent: #3a7bff;
 
-  /* Apple‑style glass gradients */
   --glass-grad-1: rgba(255, 255, 255, 0.55);
   --glass-grad-2: rgba(255, 255, 255, 0.18);
 
-  /* Borders + shadows */
   --glass-border: rgba(255, 255, 255, 0.65);
   --glass-inner: rgba(255, 255, 255, 0.9);
   --glass-shadow: rgba(0, 0, 0, 0.18);
+
+  --glow-strength: 0.35;
 }
 
 /* Dark Mode */
 body.dark {
-  --bg: radial-gradient(circle at top, #0a0c16, #050509);
+  --bg-angle: 120deg;
+
+  --bg: linear-gradient(
+      var(--bg-angle),
+      #0a0c16,
+      #0b0f1f,
+      #080a12,
+      #0d0f18
+    );
+
   --text: #f5f5f5;
   --accent: #7aa8ff;
 
@@ -45,58 +65,110 @@ body.dark {
   --glass-border: rgba(255, 255, 255, 0.18);
   --glass-inner: rgba(255, 255, 255, 0.25);
   --glass-shadow: rgba(0, 0, 0, 0.55);
+
+  --glow-strength: 0.18;
 }
 
-body {
-  background: var(--bg);
-  color: var(--text);
+/* Animated background */
+@keyframes softGradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* ----------------------------------------------------------
-   REALISTIC LIQUID GLASS (APPLE STYLE)
+   REALISTIC LIQUID GLASS
 ---------------------------------------------------------- */
 
 .glass {
-  background: linear-gradient(
-      145deg,
-      var(--glass-grad-1),
-      var(--glass-grad-2)
-    );
+  background: linear-gradient(145deg, var(--glass-grad-1), var(--glass-grad-2));
   backdrop-filter: blur(22px) saturate(180%) brightness(1.15);
   -webkit-backdrop-filter: blur(22px) saturate(180%) brightness(1.15);
-
   border-radius: 28px;
   border: 1px solid var(--glass-border);
-
-  box-shadow:
-    0 8px 32px var(--glass-shadow);
-
+  box-shadow: 0 8px 32px var(--glass-shadow);
   position: relative;
   overflow: hidden;
+
+  /* Breathing pulse */
+  animation: glassPulse 6s ease-in-out infinite;
+
+  /* Parallax glow defaults */
+  --glow-x: 50%;
+  --glow-y: 50%;
 }
 
-/* Inner rim light */
+/* Rim light */
 .glass::before {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: inherit;
   padding: 1px;
-  background: linear-gradient(
-      145deg,
-      var(--glass-inner),
-      transparent
-    );
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
+  background: linear-gradient(145deg, var(--glass-inner), transparent);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
           mask-composite: exclude;
   pointer-events: none;
 }
 
+/* Glow + shimmer layer */
+.glass::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+
+  background:
+    radial-gradient(circle at center,
+      rgba(255, 255, 255, 0.18),
+      rgba(255, 255, 255, 0.05) 60%,
+      transparent 100%
+    ),
+    linear-gradient(
+      120deg,
+      rgba(255, 255, 255, 0.12) 0%,
+      rgba(255, 255, 255, 0.25) 50%,
+      rgba(255, 255, 255, 0.12) 100%
+    );
+
+  background-size: 200% 200%;
+  animation: shimmerMove 12s ease-in-out infinite;
+
+  opacity: var(--glow-strength);
+  transition: opacity 0.4s ease, transform 0.4s ease, background-position 0.15s ease-out;
+
+  background-position: var(--glow-x) var(--glow-y), center;
+}
+
+/* Hover glow */
+.glass:hover::after {
+  opacity: calc(var(--glow-strength) + 0.15);
+  transform: scale(1.05);
+}
+
+/* Scroll-reactive glow */
+.glow-active::after {
+  opacity: calc(var(--glow-strength) + 0.10);
+  transform: scale(1.03);
+}
+
+/* Shimmer animation */
+@keyframes shimmerMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Breathing pulse */
+@keyframes glassPulse {
+  0% { box-shadow: 0 8px 32px var(--glass-shadow); }
+  50% { box-shadow: 0 12px 38px rgba(255, 255, 255, 0.25); }
+  100% { box-shadow: 0 8px 32px var(--glass-shadow); }
+}
+
 /* ----------------------------------------------------------
-   TOP PILL NAVBAR WITH BOWED GLASS EFFECT
+   NAVBAR (BOWED GLASS)
 ---------------------------------------------------------- */
 
 .navbar {
@@ -106,16 +178,13 @@ body {
   transform: translateX(-50%);
   padding: 14px 32px;
   border-radius: 999px;
-
   display: flex;
   align-items: center;
   gap: 26px;
-
   z-index: 1000;
   transition: 0.3s ease;
 }
 
-/* Bowed highlight */
 .navbar::before {
   content: "";
   position: absolute;
@@ -132,7 +201,6 @@ body {
   pointer-events: none;
 }
 
-/* Bottom shadow curve */
 .navbar::after {
   content: "";
   position: absolute;
@@ -170,7 +238,6 @@ body {
   background: rgba(255, 255, 255, 0.25);
 }
 
-/* Theme button */
 .theme-btn {
   background: none;
   border: none;
@@ -184,7 +251,6 @@ body {
   transform: scale(1.1);
 }
 
-/* Mobile hamburger */
 .hamburger {
   display: none;
   background: none;
@@ -194,7 +260,7 @@ body {
 }
 
 /* ----------------------------------------------------------
-   MOBILE DROPDOWN MENU (GLASS + ANIMATION + RIPPLE)
+   MOBILE DROPDOWN MENU
 ---------------------------------------------------------- */
 
 @media (max-width: 768px) {
@@ -205,11 +271,7 @@ body {
     padding: 16px 20px;
     border-radius: 22px;
 
-    background: linear-gradient(
-        145deg,
-        var(--glass-grad-1),
-        var(--glass-grad-2)
-      );
+    background: linear-gradient(145deg, var(--glass-grad-1), var(--glass-grad-2));
     backdrop-filter: blur(22px) saturate(180%) brightness(1.15);
     -webkit-backdrop-filter: blur(22px) saturate(180%) brightness(1.15);
 
@@ -218,7 +280,6 @@ body {
 
     overflow: hidden;
 
-    /* Dropdown animation */
     opacity: 0;
     transform: translateY(-10px) scale(0.98);
     transition:
@@ -274,22 +335,13 @@ body.dark .ripple {
 }
 
 @keyframes rippleEffect {
-  0% {
-    transform: scale(0);
-    opacity: 0.9;
-  }
-  70% {
-    transform: scale(18);
-    opacity: 0.25;
-  }
-  100% {
-    transform: scale(22);
-    opacity: 0;
-  }
+  0% { transform: scale(0); opacity: 0.9; }
+  70% { transform: scale(18); opacity: 0.25; }
+  100% { transform: scale(22); opacity: 0; }
 }
 
 /* ----------------------------------------------------------
-   BOTTOM NAV (iOS SAFARI STYLE)
+   BOTTOM NAV
 ---------------------------------------------------------- */
 
 .bottom-nav {
@@ -299,7 +351,6 @@ body.dark .ripple {
   transform: translateX(-50%);
   padding: 12px 22px;
   border-radius: 999px;
-
   display: flex;
   gap: 16px;
   z-index: 900;
@@ -356,7 +407,7 @@ body.dark .ripple {
 }
 
 /* ----------------------------------------------------------
-   ANIMATED GLASS BUTTONS
+   BUTTONS
 ---------------------------------------------------------- */
 
 .glass-btn {
