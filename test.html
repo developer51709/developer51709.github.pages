@@ -720,15 +720,21 @@ Conclusion: User owns a rebellious toaster.
       { user: "dev-30", text: "That's within acceptable parameters." }
     ];
 
+    let devIndex = 0;
+
     setInterval(() => {
-      const entry = devMessages[Math.floor(Math.random() * devMessages.length)];
+      const entry = devMessages[devIndex];
+
       const div = document.createElement("div");
       div.className = "chat-entry";
       div.innerHTML =
         '<span class="chat-user">[' + entry.user + ']</span> ' +
         '<span class="chat-text">' + entry.text + '</span>';
+
       chatLog.appendChild(div);
       chatLog.scrollTop = chatLog.scrollHeight;
+
+      devIndex = (devIndex + 1) % devMessages.length; // loops back to start
     }, 5000);
   </script>
 </body>
