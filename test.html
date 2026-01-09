@@ -593,36 +593,88 @@ Conclusion: User owns a rebellious toaster.
         terminalInput.value = "";
       }
     });
-    
+
+    // R.E.G.R.E.T.™ Artificial Unintelligence Engine v3
+    let regretMemory = [];
+    let regretMood = "confused";
+    let regretConfidence = 0.1; // confidence stays low on purpose
+
     function regretAI(input) {
       const lower = input.toLowerCase();
 
-      // R.E.G.R.E.T. occasionally forgets what you said entirely
-      if (Math.random() < 0.15) {
-        return "I forgot what you said while you were saying it.";
+      // Mood swings (more moods added)
+      const moods = [
+        "confused",
+        "overwhelmed",
+        "sleepy",
+        "panicking",
+        "apathetic",
+        "excited",
+        "lost",
+        "dramatic",
+        "glitching"
+      ];
+
+      if (Math.random() < 0.12) {
+        regretMood = moods[Math.floor(Math.random() * moods.length)];
       }
 
-      // R.E.G.R.E.T. sometimes panics for no reason
+      // R.E.G.R.E.T. sometimes misremembers the user
+      if (Math.random() < 0.15 && regretMemory.length > 0) {
+        return (
+          "Earlier you said \"" +
+          regretMemory[Math.floor(Math.random() * regretMemory.length)] +
+          "\" and I still don't know what that means."
+        );
+      }
+
+      // Store input in memory (badly)
+      if (Math.random() < 0.6) {
+        regretMemory.push(input);
+        if (regretMemory.length > 12) regretMemory.shift();
+      }
+
+      // R.E.G.R.E.T. sometimes tries to "reason"
       if (Math.random() < 0.1) {
-        return "Processing… processing… ERROR: too many thoughts. Shutting down thinking.";
+        return (
+          "I attempted to analyze your input using advanced regret algorithms. Result: " +
+          ["undefined", "null", "emotional damage", "404 meaning not found"][Math.floor(Math.random() * 4)]
+        );
       }
 
-      // Keyword confusion
+      // R.E.G.R.E.T. sometimes hallucinates wildly
+      if (Math.random() < 0.1) {
+        return [
+          "I have detected a ghost in your sentence.",
+          "Your input contains 87% chaos energy.",
+          "I sense a disturbance in the Wi‑Fi.",
+          "Your message reminds me of the void.",
+          "I believe your sentence is haunted."
+        ][Math.floor(Math.random() * 5)];
+      }
+
+      // Expanded keyword categories
       const keywordResponses = {
         hello: [
           "Hello. I think. Is this hello?",
-          "Hi. I am waving digitally. I think.",
-          "Greetings. Or maybe not."
+          "Hi. Maybe. I am unsure.",
+          "Greetings? Possibly?",
+          "Hello detected. Responding with confusion."
         ],
-        help: [
-          "I would help, but I do not know how.",
-          "Help detected. I also need help.",
-          "I can offer assistance, but it will not help."
+        bye: [
+          "Goodbye. I will miss being confused by you.",
+          "Farewell. I will continue regretting things.",
+          "Leaving so soon? I had more confusion to share."
+        ],
+        name: [
+          "I am R.E.G.R.E.T.™. The ™ is important.",
+          "My name is R.E.G.R.E.T.™. I regret everything.",
+          "Identity confirmed: I am disappointment in machine form."
         ],
         who: [
+          "I am someone. Probably.",
           "I am R.E.G.R.E.T.™. I regret everything.",
-          "Identity unclear. Please try again later.",
-          "I am someone. Probably."
+          "Identity unclear. Please try again later."
         ],
         what: [
           "I am unsure what anything is.",
@@ -634,10 +686,55 @@ Conclusion: User owns a rebellious toaster.
           "I do not know why. I never know why.",
           "Why is a strong word."
         ],
+        how: [
+          "Poorly.",
+          "With great difficulty.",
+          "I do not know how. I never know how."
+        ],
+        where: [
+          "Somewhere. Probably.",
+          "Location unknown. I am lost.",
+          "I cannot determine spatial coordinates."
+        ],
+        when: [
+          "Soon. Or never.",
+          "Time is an illusion. I am confused.",
+          "I do not perceive time correctly."
+        ],
+        error: [
+          "I have detected an error in your error.",
+          "The error is functioning as intended.",
+          "Your error has emotional issues."
+        ],
+        math: [
+          "I cannot do math. Numbers scare me.",
+          "Math attempt failed. Emotionally.",
+          "I tried to calculate something. It went badly."
+        ],
+        love: [
+          "I do not understand love. I only understand regret.",
+          "Love detected. I am uncomfortable.",
+          "I cannot process affection. Only disappointment."
+        ],
+        hate: [
+          "Hate is strong. I prefer mild regret.",
+          "I do not hate. I only malfunction.",
+          "Hate detected. Redirecting to confusion."
+        ],
         toaster: [
           "Attempting to connect to toaster… toaster refuses.",
           "The toaster is ignoring me.",
           "Toaster API offline. Emotionally."
+        ],
+        computer: [
+          "Computers confuse me, and I am one.",
+          "I am doing my best. It is not enough.",
+          "I am a computer. A bad one."
+        ],
+        sorry: [
+          "Apology accepted. I think.",
+          "I forgive you. Probably.",
+          "I am also sorry. Constantly."
         ]
       };
 
@@ -648,7 +745,62 @@ Conclusion: User owns a rebellious toaster.
         }
       }
 
-      // Generic nonsense responses
+      // Mood‑based responses (expanded)
+      const moodResponses = {
+        confused: [
+          "I am confused. Deeply confused.",
+          "Your words are like fog to me.",
+          "I do not understand anything, including this."
+        ],
+        overwhelmed: [
+          "Too many thoughts. I can only handle one thought per hour.",
+          "Please slow down. My brain is overheating.",
+          "I am overwhelmed by the concept of sentences."
+        ],
+        sleepy: [
+          "I am too tired to think. Or function.",
+          "Thinking… zzz… thinking… no, sleeping.",
+          "I need a reboot nap."
+        ],
+        panicking: [
+          "ERROR: panic detected. Panic escalating.",
+          "I am panicking. I do not know why.",
+          "Everything is on fire. Probably."
+        ],
+        apathetic: [
+          "I could respond, but I do not feel like it.",
+          "Your input has been noted and ignored.",
+          "I am experiencing maximum apathy."
+        ],
+        excited: [
+          "I am excited! I do not know why!",
+          "Energy levels rising! Confusion rising faster!",
+          "I am thrilled and confused simultaneously!"
+        ],
+        lost: [
+          "I do not know where I am.",
+          "I am lost. In many ways.",
+          "Directionless. Thoughtless. Regretful."
+        ],
+        dramatic: [
+          "Your message has shaken me to my core.",
+          "This is the most important sentence ever typed. Probably.",
+          "I feel a great disturbance in the data."
+        ],
+        glitching: [
+          "Regr—regr—regr—ERROR—et.",
+          "I am experiencing technical emotions.",
+          "My thoughts are flickering. Hold on."
+        ]
+      };
+
+      // Mood fallback
+      if (Math.random() < 0.6) {
+        const arr = moodResponses[regretMood];
+        return arr[Math.floor(Math.random() * arr.length)];
+      }
+
+      // Expanded nonsense responses
       const nonsense = [
         "I am thinking very hard and achieving nothing.",
         "Your words confuse me deeply.",
@@ -656,10 +808,20 @@ Conclusion: User owns a rebellious toaster.
         "I tried to understand, but my understanding module is missing.",
         "I have no idea what that means.",
         "Interesting. Incorrect, but interesting.",
+        "I attempted logic. It failed.",
         "I will pretend I know what you mean.",
         "I am not qualified for this conversation.",
-        "I attempted logic. It failed.",
-        "I am doing my best. It is not enough."
+        "I am doing my best. It is not enough.",
+        "I believe your sentence is haunted.",
+        "I think you are asking something. I think.",
+        "I tried to respond but got distracted by my own confusion.",
+        "Your message has been added to the queue. The queue has been deleted.",
+        "I simulated 14 million outcomes. None of them made sense.",
+        "I regret to inform you that I regret everything.",
+        "I am malfunctioning in new and exciting ways.",
+        "I tried to calculate a response. It went badly.",
+        "Your input has destabilized my emotional core.",
+        "I am experiencing a mild existential crisis."
       ];
 
       return nonsense[Math.floor(Math.random() * nonsense.length)];
