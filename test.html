@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Respectable Browser Pro Max Extreme Deluxe Premium Edition</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #e8ecf3, #f7f9fc);
+      font-family: "Segoe UI", Roboto, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      animation: fadeIn 1.2s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0 }
+      to { opacity: 1 }
+    }
+
+    .container {
+      text-align: center;
+      max-width: 850px;
+      padding: 40px;
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      animation: slideUp 1s ease forwards;
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    @keyframes slideUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #222;
+      position: relative;
+      display: inline-block;
+      animation: fadeInText 1.4s ease forwards;
+    }
+
+    @keyframes fadeInText {
+      from { opacity: 0; transform: translateY(10px) }
+      to { opacity: 1; transform: translateY(0) }
+    }
+
+    h1::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      width: 0%;
+      height: 3px;
+      background: #4a90e2;
+      animation: underline 1.6s ease forwards 0.6s;
+    }
+
+    @keyframes underline {
+      from { width: 0% }
+      to { width: 100% }
+    }
+
+    p {
+      font-size: 18px;
+      color: #555;
+      margin-top: 20px;
+      opacity: 0;
+      animation: fadeIn 1.6s ease forwards 1s;
+    }
+
+    /* Slideshow */
+    .slideshow {
+      margin-top: 30px;
+      height: 160px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      opacity: 0;
+      transform: translateX(40px);
+      transition: all 0.6s ease;
+      font-size: 20px;
+      color: #333;
+      padding: 10px;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Broken progress bar */
+    .progress-container {
+      margin-top: 30px;
+      width: 100%;
+      background: #eee;
+      border-radius: 10px;
+      overflow: hidden;
+      height: 20px;
+      position: relative;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 3%;
+      background: #4a90e2;
+      transition: width 0.4s ease;
+    }
+
+    /* Backwards spinner */
+    .spinner {
+      margin: 20px auto;
+      border: 6px solid #ddd;
+      border-top: 6px solid #4a90e2;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spinBackwards 1s linear infinite;
+    }
+
+    @keyframes spinBackwards {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(-360deg); }
+    }
+
+    /* Buttons */
+    .button {
+      margin-top: 25px;
+      padding: 14px 32px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      background: #4a90e2;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s ease;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    }
+
+    .button:hover {
+      background: #3a7ccc;
+      transform: translateY(-2px);
+    }
+
+    /* Overreacting continue button */
+    .button.dramatic:hover {
+      animation: shake 0.3s ease;
+      background: #e24a4a;
+    }
+
+    @keyframes shake {
+      0% { transform: translateX(0) }
+      25% { transform: translateX(-4px) }
+      50% { transform: translateX(4px) }
+      75% { transform: translateX(-4px) }
+      100% { transform: translateX(0) }
+    }
+
+    /* Impossible checkbox */
+    .checkbox-container {
+      margin-top: 20px;
+      user-select: none;
+    }
+
+    .checkbox-container input {
+      transform: scale(1.4);
+      margin-right: 10px;
+    }
+
+    /* Fake benchmark chart */
+    .chart {
+      margin-top: 30px;
+      text-align: left;
+      font-size: 16px;
+    }
+
+    .bar {
+      height: 12px;
+      background: #ccc;
+      margin: 6px 0;
+      position: relative;
+    }
+
+    .bar span {
+      display: block;
+      height: 100%;
+      background: #4a90e2;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Welcome to Respectable Browser Pro Max Extreme Deluxe Premium Edition</h1>
+    <p>The browser that manages to get worse and more regrettable with every update :)</p>
+
+    <!-- Slideshow -->
+    <div class="slideshow">
+      <div class="slide active">• Enjoy lightning‑fast performance (when it feels like it)</div>
+      <div class="slide">• Search literally anything — even places that should NOT be search engines</div>
+      <div class="slide">• Experience our patented “Unstable Rendering Technology™”</div>
+      <div class="slide">• Built‑in support for IRS, Roblox, and other essential browsing destinations</div>
+      <div class="slide">• Now with 37% more unnecessary animations</div>
+      <div class="slide">• Proudly worse than the last version</div>
+    </div>
+
+    <button class="button" onclick="nextSlide()">Next</button>
+
+    <!-- Broken progress bar -->
+    <div class="progress-container">
+      <div class="progress-bar" id="progress"></div>
+    </div>
+
+    <!-- Backwards spinner -->
+    <div class="spinner"></div>
+
+    <!-- Impossible checkbox -->
+    <div class="checkbox-container">
+      <label>
+        <input type="checkbox" id="telemetry" checked onclick="forceCheck()">  
+        Send anonymous usage data to improve your disappointment
+      </label>
+    </div>
+
+    <!-- Fake AI assistant -->
+    <p><strong>Meet R.E.G.R.E.T.™</strong><br>
+    Respectable Enhanced Guidance & Recommendation Engine Technology<br>
+    Helping you make worse decisions, faster.</p>
+
+    <!-- Fake benchmark chart -->
+    <div class="chart">
+      <strong>Independent Benchmark Results</strong><br><br>
+      Chrome <div class="bar"><span style="width: 100%"></span></div>
+      Firefox <div class="bar"><span style="width: 95%"></span></div>
+      Safari <div class="bar"><span style="width: 90%"></span></div>
+      Edge <div class="bar"><span style="width: 88%"></span></div>
+      Respectable Browser PMXEDPE™ <div class="bar"><span style="width: 7%"></span></div>
+    </div>
+
+    <!-- Buttons -->
+    <button class="button dramatic" onclick="continueToBrowser()">Continue</button>
+    <button class="button" onclick="skipSetup()">Skip Setup (Not Recommended)</button>
+  </div>
+
+  <script>
+    /* Slideshow */
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+
+    function nextSlide() {
+      slides[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].classList.add('active');
+    }
+
+    /* Broken progress bar */
+    let progress = 3;
+    setInterval(() => {
+      const bar = document.getElementById('progress');
+      progress += (Math.random() * 4 - 2); // goes up and down randomly
+      progress = Math.max(0, Math.min(12, progress)); // never reaches 100
+      bar.style.width = progress + "%";
+    }, 600);
+
+    /* Impossible checkbox */
+    function forceCheck() {
+      const box = document.getElementById('telemetry');
+      box.checked = true;
+      box.style.animation = "shake 0.3s";
+      setTimeout(() => box.style.animation = "", 300);
+    }
+
+    /* Skip setup button that does nothing */
+    function skipSetup() {
+      alert("Skipping setup is currently unavailable. Please enjoy the full onboarding experience.");
+    }
+
+    /* Continue button */
+    function continueToBrowser() {
+      alert("Warning: Continuing may result in a functional browser experience.");
+      window.location.href = "blank.html";
+    }
+  </script>
+</body>
+</html>
