@@ -615,12 +615,12 @@ Conclusion: User owns a rebellious toaster.
         "glitching"
       ];
 
-      if (Math.random() < 0.12) {
+      if (Math.random() < 0.10) {
         regretMood = moods[Math.floor(Math.random() * moods.length)];
       }
 
       // R.E.G.R.E.T. sometimes misremembers the user
-      if (Math.random() < 0.15 && regretMemory.length > 0) {
+      if (Math.random() < 0.05 && regretMemory.length > 0) {
         return (
           "Earlier you said \"" +
           regretMemory[Math.floor(Math.random() * regretMemory.length)] +
