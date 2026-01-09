@@ -593,6 +593,77 @@ Conclusion: User owns a rebellious toaster.
         terminalInput.value = "";
       }
     });
+    
+    function regretAI(input) {
+      const lower = input.toLowerCase();
+
+      // R.E.G.R.E.T. occasionally forgets what you said entirely
+      if (Math.random() < 0.15) {
+        return "I forgot what you said while you were saying it.";
+      }
+
+      // R.E.G.R.E.T. sometimes panics for no reason
+      if (Math.random() < 0.1) {
+        return "Processing… processing… ERROR: too many thoughts. Shutting down thinking.";
+      }
+
+      // Keyword confusion
+      const keywordResponses = {
+        hello: [
+          "Hello. I think. Is this hello?",
+          "Hi. I am waving digitally. I think.",
+          "Greetings. Or maybe not."
+        ],
+        help: [
+          "I would help, but I do not know how.",
+          "Help detected. I also need help.",
+          "I can offer assistance, but it will not help."
+        ],
+        who: [
+          "I am R.E.G.R.E.T.™. I regret everything.",
+          "Identity unclear. Please try again later.",
+          "I am someone. Probably."
+        ],
+        what: [
+          "I am unsure what anything is.",
+          "What is… what? I am confused.",
+          "I cannot define that. Or anything."
+        ],
+        why: [
+          "Because reasons.",
+          "I do not know why. I never know why.",
+          "Why is a strong word."
+        ],
+        toaster: [
+          "Attempting to connect to toaster… toaster refuses.",
+          "The toaster is ignoring me.",
+          "Toaster API offline. Emotionally."
+        ]
+      };
+
+      for (const key in keywordResponses) {
+        if (lower.includes(key)) {
+          const arr = keywordResponses[key];
+          return arr[Math.floor(Math.random() * arr.length)];
+        }
+      }
+
+      // Generic nonsense responses
+      const nonsense = [
+        "I am thinking very hard and achieving nothing.",
+        "Your words confuse me deeply.",
+        "I processed your input and found only regret.",
+        "I tried to understand, but my understanding module is missing.",
+        "I have no idea what that means.",
+        "Interesting. Incorrect, but interesting.",
+        "I will pretend I know what you mean.",
+        "I am not qualified for this conversation.",
+        "I attempted logic. It failed.",
+        "I am doing my best. It is not enough."
+      ];
+
+      return nonsense[Math.floor(Math.random() * nonsense.length)];
+    }
 
     function handleTerminalCommand(cmd) {
       const lower = cmd.toLowerCase();
@@ -602,23 +673,14 @@ Conclusion: User owns a rebellious toaster.
       }
       if (lower === "help") {
         addTerminalLine("Available commands: help, regret, regret harder, panic, apologize, toaster.connect()");
-      } else if (lower === "regret") {
-        addTerminalLine("R.E.G.R.E.T.™: I regret everything.");
-      } else if (lower === "regret harder") {
-        addTerminalLine("R.E.G.R.E.T.™: I regret to inform you that my regret capacity is already at 100%.");
+        return
       } else if (lower === "panic") {
         addTerminalLine("R.E.G.R.E.T.™: Initiating panic protocol...");
         triggerPanic();
-      } else if (lower === "apologize") {
-        addTerminalLine("R.E.G.R.E.T.™: I apologize for any inconvenience, including this one.");
-      } else if (lower === "toaster.connect()" || lower === "toaster.connect") {
-        addTerminalLine("R.E.G.R.E.T.™: Attempting to connect to toaster...");
-        setTimeout(() => {
-          addTerminalLine("R.E.G.R.E.T.™: Connection failed. Toaster is emotionally unavailable.");
-        }, 800);
-      } else {
-        addTerminalLine("R.E.G.R.E.T.™: I regret to inform you that I cannot do that.");
+        return;
       }
+      // NEW: fallback to the pseudo-AI
+      addTerminalLine("R.E.G.R.E.T.™: " + regretAI(cmd));
     }
 
     // Danger Zone buttons
