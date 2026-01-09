@@ -347,6 +347,21 @@
     </div>
   </div>
 
+  <div id="dangerToast" style="
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #900;
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 12px;
+    display: none;
+    box-shadow: 0 0 10px #f00;
+    z-index: 9999;
+  "></div>
+
   <!-- Main UI -->
   <div class="main-ui" id="ui">
     <div class="dark-mode-toggle" id="darkToggle">Toggle Dark Mode (makes it worse)</div>
@@ -626,12 +641,26 @@ Conclusion: User owns a rebellious toaster.
         }
 
         const msg = dangerMessages[action] || "Unknown chaos protocol executed.";
+
+        showDangerToast(msg);
+        
         const line = document.createElement("div");
         line.textContent = "[DANGER] " + msg;
         systemLog.appendChild(line);
         systemLog.scrollTop = systemLog.scrollHeight;
       }
     });
+
+    function showDangerToast(msg) {
+      const toast = document.getElementById("dangerToast");
+      toast.textContent = msg;
+      toast.style.display = "block";
+
+      setTimeout(() => {
+        toast.style.display = "none";
+      }, 2000);
+    }
+
 
     function triggerPanic() {
       panicOverlay.style.display = "flex";
