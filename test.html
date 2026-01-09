@@ -13,8 +13,10 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      overflow: hidden;
+      min-height: 100vh;
+      height: auto;
+      overflow-y: auto;
+      overflow-x: hidden;
       animation: fadeIn 1.2s ease forwards;
     }
 
@@ -33,6 +35,7 @@
       animation: slideUp 1s ease forwards;
       opacity: 0;
       transform: translateY(40px);
+      max-height: none;
     }
 
     @keyframes slideUp {
