@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Custom Embed Builder</title>
+    <style>
+        body { font-family: Arial; padding: 20px; max-width: 700px; margin: auto; }
+        input, textarea { width: 100%; padding: 8px; margin-bottom: 10px; }
+        button { padding: 10px 20px; margin-right: 10px; }
+        h2 { margin-top: 30px; }
+    </style>
+</head>
+<body>
+
+<h1>Discord Webhook Embed Builder</h1>
+
+<label>Webhook URL:</label>
+<input id="webhook" placeholder="Paste your webhook URL">
+
+<h2>Embed Content</h2>
+
+<label>Title:</label>
+<input id="title">
+
+<label>Description:</label>
+<textarea id="description" rows="4"></textarea>
+
+<label>Color (hex, e.g. #ff0000):</label>
+<input id="color" placeholder="#5865F2">
+
+<label>Thumbnail URL (optional):</label>
+<input id="thumbnail">
+
+<label>Image URL (optional):</label>
+<input id="image">
+
+<label>Footer Text (optional):</label>
+<input id="footer">
+
+<label>Footer Icon URL (optional):</label>
+<input id="footerIcon">
+
+<h2>Fields (optional)</h2>
+
+<label>Field Name:</label>
+<input id="fieldName">
+
+<label>Field Value:</label>
+<input id="fieldValue">
+
+<label>Inline Field?</label>
+<select id="fieldInline">
+    <option value="false">No</option>
+    <option value="true">Yes</option>
+</select>
+
+<h2>Message ID (for editing)</h2>
+<input id="messageId" placeholder="Leave empty when sending">
+
+<button onclick="sendEmbed()">Send Embed</button>
+<button onclick="editEmbed()">Edit Embed</button>
+
+<script>
+function buildEmbed() {
+    const embed = {
+        title: document.getElementById("title").value || undefined,
+        description: document.getElementById("description").value || undefined,
+        color: document.getElementById("color").value ? parseInt(document.getElementById("color").value.replace("#", ""), 16) : undefined,
+        thumbnail: document.getElementById("thumbnail").value ? { url: document.getElementById("thumbnail").value } : undefined,
+        image: document.getElementById("image").value ? { url: document.getElementById("image").value } : undefined,
+        footer: document.getElementById("footer").value ? {
+            text: document.getElementById("footer").value,
+            icon_url: document.getElementById("footerIcon").value || undefined
+        } : undefined,
+        fields: []
+    };
+
+    const fieldName = document.getElementById("fieldName").value;
+    const fieldValue = document.getElementById("fieldValue").value;
+
+    if (fieldName && fieldValue) {
+        embed.fields.push({
+            name: fieldName,
+            value: fieldValue,
+            inline: document.getElementById("fieldInline").value === "true"
+        });
+    }
+
+    return { embeds: [embed] };
+}
+
+async function sendEmbed() {
+    const webhook = document.getElementById("webhook").value;
+    const payload = buildEmbed();
+
+    const res = await fetch(webhook + "?wait=true", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+    alert("Message sent! ID: " + data.id);
+}
+
+async function editEmbed() {
+    const webhook = document.getElementById("webhook").value;
+    const messageId = document.getElementById("messageId").value;
+
+    if (!messageId) return alert("Enter a message ID to edit.");
+
+    const payload = buildEmbed();
+    const editUrl = webhook.replace("/webhooks/", "/webhooks/messages/") + "/" + messageId;
+
+    await fetch(editUrl, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+    });
+
+    alert("Message edited!");
+}
+</script>
+
+</body>
+</html>
