@@ -18,3 +18,4 @@ https://developer51709.github.io/embed-builder.html
 ### Other Pages
 
 https://developer51709.github.io/test.html
+https://developer51709.github.io/testing
