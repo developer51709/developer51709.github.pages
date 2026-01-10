@@ -19,3 +19,4 @@ https://developer51709.github.io/embed-builder.html
 
 https://developer51709.github.io/test.html
 https://developer51709.github.io/testing
+https://developer51709.github.io/partnership.html
